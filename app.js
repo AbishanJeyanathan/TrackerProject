@@ -3,6 +3,9 @@ const express = require('express');
 const mongoose = require("mongoose");
 const session = require("express-session");
 const app = express();
+const expressLayouts = require('express-ejs-layouts');
+const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
 const port = 3000;
 
 // database connection
@@ -16,24 +19,25 @@ const port = 3000;
     db.once('open', () => console.log('Successfully Connected to the Database'));
 
     // Static Files
+    app.use(express.urlencoded( { extended: true} ))
     app.use(express.static('public'));
-    // Specific folder example
-    app.use('/css', express.static(__dirname + '/public/css'));
-    app.use('/js', express.static(__dirname + '/public/js'));
-    app.use('/img', express.static(__dirname + '/public/images'));
+    app.use(expressLayouts)
+
+    app.use(cookieParser('CookingBlogSecure'));
+    app.use(session({
+    secret: 'CookingBlogSecretSession',
+    saveUninitialized: true,
+    resave: true
+  }));
+    app.use(flash());
+    app.use(fileUpload());
 
     // Set View's
-    app.set('views', './views');
+    app.set('layout', './layouts/home');
     app.set('view engine', 'ejs');
-
-    // Navigation
-    app.get('', (req, res) => {
-      res.render('home', { text: 'Hey' });
-    });
-
-    app.get('/about', (req, res) => {
-      res.sendFile(__dirname + '/views/about.html');
-    });
+    // Routes
+    const routes = require('./server/routes/routes.js')
+    app.use('/', routes);
 
     app.listen(port, () => {
       console.log(`Server started at http://localhost:${port}`);
