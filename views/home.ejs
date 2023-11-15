@@ -6,6 +6,11 @@
     <title><%= typeof title != 'undefined' ? title: 'Calorie Tracker - Made With Node.js' %></title>
 </head>
 <body>
-    <%- body -%>
+    <h1>Players</h1>
+    <ul>
+        <% people.forEach(person => { %>
+            <li><%= person.name %> - Height: <%= person.height %> cm, Position: <%= person.position %></li>
+        <% }); %>
+    </ul>
 </body>
 </html>
