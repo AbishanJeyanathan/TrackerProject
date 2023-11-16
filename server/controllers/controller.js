@@ -1,5 +1,6 @@
-// controllers/personController.js
-const Person = require('../models/person');
+// controllers/controller.js
+// Controllers 
+const Person = require('../models/models');
 
 exports.getIndex = (req, res) => {
     res.render('index');

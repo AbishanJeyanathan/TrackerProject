@@ -1,0 +1,8 @@
+@charset "UTF-8"; /* CSS Document */ 
+/* The body tag style applies to all elements on the page */ 
+body 
+{ 
+    background-color: rgb(255, 0, 0); 
+    font-family: 'Courier New', Courier, monospace;
+
+}
